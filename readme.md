@@ -39,7 +39,16 @@ Using PHP PDO to create REST API with JWT
 
 
 # structure
-model will connect with database and is reffering to DB modal.<br>
+model will connect with database and is referring to DB modal.<br>
 config will have configuration files.<br>
 api folder containing requests files.<br>
 Headers in PHP help us to view data in a well manner<br>
+
+# SWAGGER UI
+[swagger.ui](https://petstore.swagger.io/)<br>
+configuring composer and swagger ui<br>
+composer require zircote/swagger-php ^3.2.0  (version 3.2.0 is required!)\
+required composer for the project \
+https://zircote.github.io/swagger-php/guide/ \
+change localhost in swagger-initializer.js in the dist directory \
+change the directory in api.php accordingly to the server configuration \

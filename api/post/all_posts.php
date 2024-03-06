@@ -31,6 +31,7 @@ if($data->rowCount()) {
             'categoryName' => $row->categories,
             'description' => $row->body,
             'title' => $row->title,
+            'author' => $row->author,
             'created_at' => $row->created_at,
         ];
     }

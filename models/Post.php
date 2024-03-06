@@ -1,7 +1,13 @@
 <?php
 
+use OpenApi\Annotations as OA;
+
 error_reporting(E_ALL);
 ini_set('display_error', 1);
+
+/**
+ * @OA\Info(title="PDO REST API", version="1.0")
+ */
 
 // class for posts table
 class Post {
@@ -25,6 +31,15 @@ class Post {
     }
 
     // Method to read all the saved posts from database
+    /**
+     * @OA\Get(
+     *     path="/restapi_php/api/post/all_posts.php",
+     *     summary="Gets all posts",
+     *     tags={"Posts"},
+     *     @OA\Response(resposne="200", description="An example resource"),
+     *     @OA\Response(response="404", description="Not Found")
+     * )
+     */
     public function readPosts() {
         // Query for reading posts table
         $query = 'SELECT 
@@ -49,6 +64,24 @@ class Post {
 
 
     // Method to read one single post
+    /**
+     * @OA\Get(
+     *     path="/restapi_php/api/post/single_post.php",
+     *     summary="Method to read a single post",
+     *     tags={"Posts"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         required=true,
+     *         description="The id passed to get data like in query string",
+     *         @OA\Schema(
+     *             type="string"
+     *         )
+     *     ),
+     *     @OA\Response(resposne="200", description="An example resource"),
+     *     @OA\Response(response="404", description="Not Found")
+     * )
+     */
     public function read_single_post($id) {
         $this->id = $id;
 
@@ -79,6 +112,38 @@ class Post {
 
 
     // Method to create new records
+    /**
+     * @OA\Post(
+     *     path="/restapi_php/api/post/insert_data.php",
+     *     summary="Method to insert a post",
+     *     tags={"Posts"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="title",
+     *                     type="string",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="body",
+     *                     type="string",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="category_id",
+     *                     type="integer",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="author",
+     *                     type="string",
+     *                 ),
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(resposne="200", description="An example resource"),
+     *     @OA\Response(response="404", description="Not Found")
+     * )
+     */
     public function create_new($params) {
         try {
             // Assigning values
@@ -113,11 +178,48 @@ class Post {
         }
         catch(PDOException $e) {
             echo $e->getMessage();
+            return false;
         }
     }
 
 
     // Method to update the records
+    /**
+     * @OA\Put(
+     *     path="/restapi_php/api/post/update.php",
+     *     summary="Method to update a post",
+     *     tags={"Posts"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="id",
+     *                     type="integer",
+     *                  ),
+     *                 @OA\Property(
+     *                     property="title",
+     *                     type="string",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="body",
+     *                     type="string",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="category_id",
+     *                     type="integer",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="author",
+     *                     type="string",
+     *                 ),
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(resposne="200", description="An example resource"),
+     *     @OA\Response(response="404", description="Not Found")
+     * )
+     */
     public function update($params) {
         try {
             // assigning values
@@ -127,7 +229,7 @@ class Post {
             $this->category_id = $params['category_id'];
             $this->author = $params['author'];
 
-            // Query for updating exisiting record.
+            // Query for updating existing record.
             $query = 'UPDATE '.$this->table.
                 ' SET 
                 title=:title,
@@ -155,17 +257,38 @@ class Post {
         }
         catch(PDOException $e) {
             echo $e->getMessage();
+            return false;
         }
     }
 
 
     // Method to delete post from database
+    /**
+     * @OA\Delete(
+     *     path="/restapi_php/api/post/destroy_post.php",
+     *     summary="Method to destroy a post",
+     *     tags={"Posts"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="id",
+     *                     type="integer",
+     *                 ),
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(resposne="200", description="An example resource"),
+     *     @OA\Response(response="404", description="Not Found")
+     * )
+     */
     public function destroy_post($id) {
         try {
             // assigning values
             $this->id = $id;
 
-            // Query for updating exisiting record.
+            // Query for updating existing record.
             $query = 'DELETE FROM '.$this->table.' 
                 WHERE id=:id';
 
@@ -183,6 +306,7 @@ class Post {
         }
         catch(PDOException $e) {
             echo $e->getMessage();
+            return false;
         }
     }
 
