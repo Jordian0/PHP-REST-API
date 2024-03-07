@@ -52,3 +52,4 @@ required composer for the project \
 https://zircote.github.io/swagger-php/guide/ \
 change localhost in swagger-initializer.js in the dist directory \
 change the directory in api.php accordingly to the server configuration \
+
